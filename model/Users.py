@@ -1,7 +1,15 @@
 from .BaseModel import *
+
+
 class Users(BaseModel):
     class Meta:
         db_table = "users"
-        unique_key = CompositeKey("user_id")
+        unique_key = CompositeKey("id", "email")
 
-        uid = CharField
+    # 表字段
+    id = IntegerField(primary_key=True, null=False)  # 用户id
+    name = CharField(null=False)  # 用户名称
+    email = CharField(unique=True,null=False)  # 用户邮箱
+    password = CharField(null=False)  # 用户密码
+    create_time = DateTimeField(null=True)  # 创建时间
+    update_time = DateTimeField(null=True)  # 修改时间
