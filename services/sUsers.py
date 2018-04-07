@@ -1,4 +1,4 @@
-import common, model
+import common, model, error
 from common.encode import encode_password
 from playhouse.shortcuts import model_to_dict
 
@@ -47,18 +47,18 @@ class sUsers():
         result = users.insert(**params).execute()
         model.database.close()
         if result:
-            return result
+            return {"id": result}
         else:
             return False
 
-    def get_info(self, email):
+    def get_info(self, **kwargs):
         """
-        根据email查看用户信息
-        :param email:
+        获取用户信息
+        :param kwargs:
         :return:
         """
         users = model.Users
-        result = users.get(users.email == email)
+        result = users.get(users.id == kwargs["id"])
         model.database.close()
 
         if result:
@@ -66,14 +66,72 @@ class sUsers():
         else:
             return False
 
+    def get_list(self, **kwargs):
+        """
+        获取用户列表
+        :param kwargs:
+        :return:
+        """
+        page = kwargs.get("page")
+        if page:
+            page = int(page)
+        else:
+            page = 1
+        pagesize = kwargs.get("pagesize")
+        if pagesize:
+            pagesize = int(pagesize)
+        else:
+            pagesize = 20
 
-if __name__ == "__main__":
-    params = {
-        "name": "小明",
-        "email": "xiao@164.com",
-        "password": "abc123"
-    }
-    xx = sUsers().create_new(**params)
-    print(xx)
-    # yy = sUsers().get_info("xiao@163.com")
-    # print(yy)
+        email = kwargs.get("email")
+        name = kwargs.get("name")
+
+        users = model.Users
+        if email:
+            condition1 = (users.email % "%{}%".format(email))
+        else:
+            condition1 = True
+        if name:
+            condition2 = (users.name % "%{}%".format(name))
+        else:
+            condition2 = True
+        users_list = []
+        for item in users.select(users.id, users.name, users.email, users.create_time, users.update_time).order_by(
+                users.create_time.desc()).paginate(page, pagesize).where(condition1 & condition2).dicts():
+            users_list.append(item)
+            model.database.close()
+        total_count = users.select().where(condition1 & condition2).count()
+        model.database.close()
+
+        return users_list, total_count
+
+    def update(self, id, **kwargs):
+        """
+        修改用户信息
+        :param id:
+        :param kwargs:
+        :return:
+        """
+        kwargs["update_time"] = common.get_time_now()
+        try:
+            users = model.Users
+            users_update = users.update(**kwargs).where((users.id == id)).execute()
+            return users_update
+        except Exception:
+            model.database.rollback()
+            raise error.Database(error.data_save_error, error.get_error_message(error.data_save_error))
+
+    def delete(self, id):
+        """
+        删除用户
+        :param id:
+        :return:
+        """
+        try:
+            users = model.Users
+            result = users.get(users.id == id).delete_instance()
+
+            return result
+        except Exception:
+            model.database.rollback()
+            raise error.Database(error.data_delete_error, error.get_error_message(error.data_delete_error))

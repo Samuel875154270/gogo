@@ -67,7 +67,8 @@ class BaseHandler(tornado.web.RequestHandler):
     def echo_error(self, error_code=20000, error_message="error"):
         """
         输出错误信息
-        :param arr:
+        :param error_code:
+        :param error_message:
         :return:
         """
         json = {
