@@ -30,8 +30,8 @@ class BaseHandler(tornado.web.RequestHandler):
             if self.arguments.get(key) is None:
                 self.arguments[key] = request_dict[key]
 
-        # 添加AppID
-        self.arguments['appid'] = self.request.headers.get("X-Auth-Appid")
+        # # 添加AppID
+        # self.arguments['appid'] = self.request.headers.get("X-Auth-Appid")
 
     def echoJson(self, code=0, data=None):
         """

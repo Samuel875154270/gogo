@@ -27,12 +27,12 @@ class UsersHandler(BaseHandler):
             validate.users_get(self.arguments)
             if id:
                 users = self.service.get_info(**self.arguments)
-                users = model_to_dict(users)
-                self.echoJson(0, users)
+                # self.echoJson(0, users)
+                self.echoJson(0, {"info": users})
             else:
                 # 如果没有id,  则获取列表
                 users_list, counts = self.service.get_list(**self.arguments)
-                self.echoJson(0, {"data": users_list, "totalCounts": counts})
+                self.echoJson(0, {"info": users_list, "totalCounts": counts})
         except error.RequestData as e:
             self.echo_error(e.code, e.message)
         except exceptions.RequestData as e:

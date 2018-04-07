@@ -58,11 +58,12 @@ class sUsers():
         :return:
         """
         users = model.Users
-        result = users.get(users.id == kwargs["id"])
+        result = users.select(users.id, users.name, users.email, users.create_time, users.update_time).where(
+            (users.id == kwargs["id"])).dicts()
         model.database.close()
 
         if result:
-            return model_to_dict(result)
+            return result
         else:
             return False
 
@@ -113,9 +114,11 @@ class sUsers():
         :return:
         """
         kwargs["update_time"] = common.get_time_now()
+        print(kwargs)
         try:
             users = model.Users
             users_update = users.update(**kwargs).where((users.id == id)).execute()
+            print(users_update)
             return users_update
         except Exception:
             model.database.rollback()
