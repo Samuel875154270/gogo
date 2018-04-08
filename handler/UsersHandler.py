@@ -27,7 +27,6 @@ class UsersHandler(BaseHandler):
             validate.users_get(self.arguments)
             if id:
                 users = self.service.get_info(**self.arguments)
-                # self.echoJson(0, users)
                 self.echoJson(0, {"info": users})
             else:
                 # 如果没有id,  则获取列表

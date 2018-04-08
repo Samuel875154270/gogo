@@ -118,7 +118,6 @@ class sUsers():
         try:
             users = model.Users
             users_update = users.update(**kwargs).where((users.id == id)).execute()
-            print(users_update)
             return users_update
         except Exception:
             model.database.rollback()

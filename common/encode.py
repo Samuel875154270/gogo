@@ -10,7 +10,7 @@ def encode_password(password):
     :return:
     """
     timestamp = str(int(time.time()))
-    sha1_encode = hashlib.sha1(password.encode()).hexdigest()
+    sha1_encode = sha1_password(password)
     new_encode = "{}{}{}".format(timestamp[-5:], sha1_encode, timestamp[:5])
     base64_encode = base64.b64encode(new_encode.encode())
     base64_encode = base64_encode.decode().replace("=", "]P[")
@@ -31,3 +31,13 @@ def decode_password(en_password):
     sha_decode = base64_decode.decode()[5:-5]
 
     return sha_decode
+
+
+def sha1_password(password):
+    """
+    sha1加密
+    :param password:
+    :return:
+    """
+    sha1_encode = hashlib.sha1(password.encode()).hexdigest()
+    return sha1_encode

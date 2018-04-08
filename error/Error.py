@@ -1,3 +1,4 @@
+password_error = 10000  # 密码错误
 exception = 20000  # 使用python定义的错误信息
 request_data_error = 20001  # 请求参数验证出错
 data_not_existed = 20002  # 查找的数据不存在
@@ -11,6 +12,7 @@ record_not_existed = 20008
 
 def get_error_message(code):
     reflect = {
+        10000: "password error",
         20001: "request params error",
         20002: "data you get not existed",
         20003: "database save error",
