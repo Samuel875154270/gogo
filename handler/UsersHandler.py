@@ -11,8 +11,8 @@ class IndexHandler(BaseHandler):
     def get(self):
         self.echoSuccess()
 
-class UsersHandler(BaseHandler):
 
+class UsersHandler(BaseHandler):
     service = sUsers()
 
     @tornado.web.asynchronous
@@ -53,7 +53,8 @@ class UsersHandler(BaseHandler):
             validate.users_create(self.arguments)
             users = self.service.create_new(**self.arguments)
             if users is False or users is 0:
-                raise exceptions.Database(exceptions.data_save_error, exceptions.get_error_message(exceptions.data_save_error))
+                raise exceptions.Database(exceptions.data_save_error,
+                                          exceptions.get_error_message(exceptions.data_save_error))
             self.echoJson(0, users)
         except error.RequestData as e:
             self.echo_error(e.code, e.message)
@@ -79,7 +80,8 @@ class UsersHandler(BaseHandler):
             del self.arguments['id']
             users = self.service.update(id, **self.arguments)
             if users is False or users is 0:
-                raise peewee.DoesNotExist(exceptions.data_not_existed, exceptions.get_error_message(exceptions.data_not_existed))
+                raise peewee.DoesNotExist(exceptions.data_not_existed,
+                                          exceptions.get_error_message(exceptions.data_not_existed))
             self.echoJson(0, {"info": "success"})
         except error.RequestData as e:
             self.echo_error(e.code, e.message)
@@ -102,7 +104,8 @@ class UsersHandler(BaseHandler):
             validate.users_delete(self.arguments)
             users = self.service.delete(self.arguments['id'])
             if users is False or users is 0:
-                raise peewee.DoesNotExist(exceptions.data_not_existed, exceptions.get_error_message(exceptions.data_not_existed))
+                raise peewee.DoesNotExist(exceptions.data_not_existed,
+                                          exceptions.get_error_message(exceptions.data_not_existed))
             self.echoJson(0, {"info": "success"})
         except error.RequestData as e:
             self.echo_error(e.code, e.message)

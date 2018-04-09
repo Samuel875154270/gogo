@@ -27,7 +27,7 @@ def users_create(input_dict):
     rules = {
         "name": [Required, lambda x: (isinstance(x, str) and x is not '')],
         "email": [Required, lambda x: (isinstance(x, str) and
-                                             re.match("\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}", x))],
+                                       re.match("\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}", x))],
         "password": [Required, lambda x: (isinstance(x, str) and x is not '')]
     }
     errors = {
