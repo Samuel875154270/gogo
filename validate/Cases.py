@@ -4,18 +4,20 @@ import re
 import validate as input_validate
 
 
-def users_get(input_dict):
+def cases_get(input_dict):
     rules = {
-        "id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "page": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "pagesize": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
-        "name": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "name": [lambda x: (isinstance(x, str) or re.match("\w+", x))],
+        "api": [lambda x: (isinstance(x, str) or re.match("\w+", x))],
+        "method": [lambda x: (isinstance(x, str) or re.match("\w+", x))],
     }
     errors = {
-        "id": "id is invalid",
-        "page": "page is invalid or not int",
-        "pagesize": "pagesize is invalid or not int",
+        "page": "name is not existed or not int",
+        "pagesize": "name is not existed or not int",
         "name": "name is not existed or invalid",
+        "api": "name is not existed or invalid",
+        "method": "name is not existed or invalid",
     }
     default_error = "Params Invalid!"
     res = validate(rules, input_dict)
@@ -25,17 +27,28 @@ def users_get(input_dict):
             raise error.RequestData(error.request_data_error, errors.get(key, default_error))
 
 
-def users_create(input_dict):
+def cases_create(input_dict):
     rules = {
         "name": [Required, lambda x: (isinstance(x, str) and x is not '')],
-        "email": [Required, lambda x: (isinstance(x, str) and
-                                       re.match("\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}", x))],
-        "password": [Required, lambda x: (isinstance(x, str) and x is not '')]
+        "api": [Required, lambda x: (isinstance(x, str) and x is not '')],
+        "method": [Required, lambda x: (isinstance(x, str) and x is not '')],
+        "headers": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "params_type": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "params": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "check_result": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "result": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "relation_id": [lambda x: (isinstance(x, int) or re.match("\d+", x))]
     }
     errors = {
         "name": "name is not existed or invalid",
-        "email": "email is not existed or invalid",
-        "password": "password is not existed invalid"
+        "api": "api is not existed or invalid",
+        "method": "method is not existed or invalid",
+        "headers": "headers is not existed or invalid",
+        "params_type": "params_type is not existed or invalid",
+        "params": "params is not existed or invalid",
+        "check_result": "check_result is not existed or invalid",
+        "result": "result is not existed or invalid",
+        "relation_id": "relation_id is not existed invalid"
     }
     default_error = "Params Invalid!"
     res = validate(rules, input_dict)
@@ -45,7 +58,7 @@ def users_create(input_dict):
             raise error.RequestData(error.request_data_error, errors.get(key, default_error))
 
 
-def users_update(input_dict):
+def cases_update(input_dict):
     rules = {
         "id": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
         "name": [lambda x: (isinstance(x, str) and re.match("\w+", x))]
@@ -62,7 +75,7 @@ def users_update(input_dict):
             raise error.RequestData(error.request_data_error, errors.get(key, default_error))
 
 
-def users_delete(input_dict):
+def cases_delete(input_dict):
     rules = {
         "id": [Required, lambda x: (isinstance(x, str) and x is not '')],
     }

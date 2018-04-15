@@ -11,7 +11,7 @@ class sUsers():
         :param kwargs:
         :return:
         """
-        # 第1种写法，主键自增的id为None
+        # 第1种写法
         # users = model.Users()
         # users.name = kwargs["name"]
         # users.email = kwargs["email"]
@@ -24,7 +24,7 @@ class sUsers():
         #     return model_to_dict(users)
         # else:
         #     return False
-        # 第2种写法，主键自增的id为None
+        # 第2种写法
         # users = model.Users
         # params = {}
         # params["name"] = kwargs["name"]

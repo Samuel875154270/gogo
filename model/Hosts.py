@@ -7,7 +7,7 @@ class Hosts(BaseModel):
         unique_key = CompositeKey("id")
 
     # 表字段
-    id = IntegerField(primary_key=True, null=False)  # id
+    id = AutoField(primary_key=True, null=False)  # id
     host = CharField(null=False)  # host地址
     name = CharField(null=False)  # 名称
     app_id = CharField(null=True)  # app_id

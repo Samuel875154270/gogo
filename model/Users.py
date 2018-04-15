@@ -7,7 +7,7 @@ class Users(BaseModel):
         unique_key = CompositeKey("id", "email")
 
     # 表字段
-    id = IntegerField(primary_key=True, null=False)  # 用户id
+    id = AutoField(primary_key=True, null=False)  # 用户id
     name = CharField(null=False)  # 用户名称
     email = CharField(unique=True, null=False)  # 用户邮箱
     password = CharField(null=False)  # 用户密码
