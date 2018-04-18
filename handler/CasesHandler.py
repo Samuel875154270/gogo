@@ -11,8 +11,8 @@ class IndexHandler(BaseHandler):
     def get(self):
         self.echoSuccess()
 
-class CasesHandler(BaseHandler):
 
+class CasesHandler(BaseHandler):
     service = sCases()
 
     @tornado.web.asynchronous
@@ -54,7 +54,8 @@ class CasesHandler(BaseHandler):
             validate.cases_create(self.arguments)
             cases = self.service.create_new(**self.arguments)
             if cases is False or cases is 0:
-                raise exceptions.Database(exceptions.data_save_error, exceptions.get_error_message(exceptions.data_save_error))
+                raise exceptions.Database(exceptions.data_save_error,
+                                          exceptions.get_error_message(exceptions.data_save_error))
             self.echoJson(0, cases)
         except error.RequestData as e:
             self.echo_error(e.code, e.message)
@@ -71,7 +72,7 @@ class CasesHandler(BaseHandler):
     @tornado.web.asynchronous
     def put(self, id):
         """
-        更新host
+        更新case
         :return:
         """
         self.arguments['id'] = id
@@ -80,7 +81,8 @@ class CasesHandler(BaseHandler):
             del self.arguments['id']
             cases = self.service.update(id, **self.arguments)
             if cases is False or cases is 0:
-                raise peewee.DoesNotExist(exceptions.data_not_existed, exceptions.get_error_message(exceptions.data_not_existed))
+                raise peewee.DoesNotExist(exceptions.data_not_existed,
+                                          exceptions.get_error_message(exceptions.data_not_existed))
             self.echoJson(0, {"info": "success"})
         except error.RequestData as e:
             self.echo_error(e.code, e.message)
@@ -95,7 +97,7 @@ class CasesHandler(BaseHandler):
     @tornado.web.asynchronous
     def delete(self, id):
         """
-        删除host
+        删除case
         :return:
         """
         self.arguments['id'] = id
@@ -103,7 +105,8 @@ class CasesHandler(BaseHandler):
             validate.cases_delete(self.arguments)
             cases = self.service.delete(self.arguments['id'])
             if cases is False or cases is 0:
-                raise peewee.DoesNotExist(exceptions.data_not_existed, exceptions.get_error_message(exceptions.data_not_existed))
+                raise peewee.DoesNotExist(exceptions.data_not_existed,
+                                          exceptions.get_error_message(exceptions.data_not_existed))
             self.echoJson(0, {"info": "success"})
         except error.RequestData as e:
             self.echo_error(e.code, e.message)

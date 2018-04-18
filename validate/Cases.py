@@ -61,11 +61,28 @@ def cases_create(input_dict):
 def cases_update(input_dict):
     rules = {
         "id": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
-        "name": [lambda x: (isinstance(x, str) and re.match("\w+", x))]
+        "name": [lambda x: (isinstance(x, str) and x is not '')],
+        "api": [lambda x: (isinstance(x, str) and x is not '')],
+        "method": [lambda x: (isinstance(x, str) and x is not '')],
+        "headers": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "params_type": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "params": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "check_result": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "result": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "relation_id": [lambda x: (isinstance(x, int) or re.match("\d+", x))]
     }
     errors = {
         "id": "id is not existed or invalid",
-        "name": "name is not existed invalid"
+        "name": "name is not existed invalid",
+        "api": "api is not existed or invalid",
+        "method": "method is not existed or invalid",
+        "headers": "headers is not existed or invalid",
+        "params_type": "params_type is not existed or invalid",
+        "params": "params is not existed or invalid",
+        "check_result": "check_result is not existed or invalid",
+        "result": "result is not existed or invalid",
+        "relation_id": "relation_id is not existed invalid"
+
     }
     default_error = "Params Invalid!"
     res = validate(rules, input_dict)
