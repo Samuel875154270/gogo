@@ -111,3 +111,18 @@ class sCases():
         except Exception:
             model.database.rollback()
             raise error.Database(error.data_delete_error, error.get_error_message(error.data_delete_error))
+
+    def update_result(self, case_id, case_result):
+        """
+        更新case的成功返回的result
+        :param case_id:
+        :param case_result:
+        :return:
+        """
+        try:
+            cases = model.Cases
+            cases_update = cases.update({"result": case_result}).where((cases.id == case_id)).execute()
+            return cases_update
+        except Exception:
+            model.database.rollback()
+            raise error.Database(error.data_delete_error, error.get_error_message(error.data_delete_error))
