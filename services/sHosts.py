@@ -76,7 +76,7 @@ class sHosts():
             condition3 = True
         hosts_list = []
         for item in hosts.select().order_by(hosts.create_time.desc()).paginate(page, pagesize).where(
-                condition1 & condition2  & condition3).dicts():
+                condition1 & condition2 & condition3).dicts():
             hosts_list.append(item)
             model.database.close()
         total_count = hosts.select().where(condition1 & condition2 & condition3).count()
