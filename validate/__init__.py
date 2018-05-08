@@ -2,6 +2,7 @@ from .Users import *
 from .Password import *
 from .Hosts import *
 from .Cases import *
+from .Tasks import *
 
 __all__ = [
     "users_get",
@@ -18,4 +19,8 @@ __all__ = [
     "cases_get",
     "cases_delete",
     "cases_update",
+    "tasks_create",
+    "tasks_get",
+    "tasks_update",
+    "tasks_delete",
 ]
