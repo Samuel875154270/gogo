@@ -28,7 +28,7 @@ def tasks_get(input_dict):
 def tasks_create(input_dict):
     rules = {
         "name": [Required, lambda x: (isinstance(x, str) and x is not '')],
-        "host_id": [Required, lambda x: (isinstance(x, int) and x is not ''and re.match("\d+", x))],
+        "host_id": [Required, lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "case_ids": [Required, lambda x: (isinstance(x, str) and re.match("\w+", x))],
     }
     errors = {
@@ -47,7 +47,7 @@ def tasks_create(input_dict):
 def tasks_update(input_dict):
     rules = {
         "id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
-        "host_id": [lambda x: (isinstance(x, str) and x is not '')],
+        "host_id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "name": [lambda x: (isinstance(x, str) and x is not '')],
     }
     errors = {
@@ -65,7 +65,7 @@ def tasks_update(input_dict):
 
 def tasks_delete(input_dict):
     rules = {
-        "id": [Required, lambda x: (isinstance(x, str) and x is not '')],
+        "id": [Required, lambda x: (isinstance(x, int) or re.match("\d+", x))],
     }
     errors = {
         "id": "id is not existed or invalid",
