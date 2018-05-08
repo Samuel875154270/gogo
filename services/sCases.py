@@ -16,12 +16,10 @@ class sCases():
         kwargs["update_time"] = common.get_time_now()
         result = cases.create(**kwargs)
         model.database.close()
-        print(model_to_dict(result))
         if result:
-             return model_to_dict(result)
+            return model_to_dict(result)
         else:
             return False
-
 
     def get_info(self, **kwargs):
         """
@@ -74,7 +72,7 @@ class sCases():
             condition3 = True
         cases_list = []
         for item in cases.select().order_by(cases.create_time.desc()).paginate(page, pagesize).where(
-                condition1 & condition2  & condition3).dicts():
+                condition1 & condition2 & condition3).dicts():
             cases_list.append(item)
             model.database.close()
         total_count = cases.select().where(condition1 & condition2 & condition3).count()
