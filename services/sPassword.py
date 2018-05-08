@@ -22,7 +22,6 @@ class sPassword():
         else:
             return False
 
-
     def update_password(self, **kwargs):
         """
         修改用户密码

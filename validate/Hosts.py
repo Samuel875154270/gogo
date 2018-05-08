@@ -50,7 +50,7 @@ def hosts_create(input_dict):
 
 def hosts_update(input_dict):
     rules = {
-        "id": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "host": [lambda x: (isinstance(x, str) and x is not '')],
         "name": [lambda x: (isinstance(x, str) and x is not '')],
         "app_id": [lambda x: (isinstance(x, str) and re.match("\w+", x))],

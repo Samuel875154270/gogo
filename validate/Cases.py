@@ -60,7 +60,7 @@ def cases_create(input_dict):
 
 def cases_update(input_dict):
     rules = {
-        "id": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
+        "id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "name": [lambda x: (isinstance(x, str) and x is not '')],
         "api": [lambda x: (isinstance(x, str) and x is not '')],
         "method": [lambda x: (isinstance(x, str) and x is not '')],

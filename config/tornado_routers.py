@@ -13,6 +13,6 @@ routers = [
     # hosts 设置
     (r"/{}/hosts/??(\w*-*\w*-*\w*-*\w*-*\w*)".format(config.api_version), handler.HostsHandler),
 
-    # Case 设置
+    # Cases 设置
     (r"/{}/cases/??(\w*-*\w*-*\w*-*\w*-*\w*)".format(config.api_version), handler.CasesHandler),
 ]

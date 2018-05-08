@@ -4,17 +4,17 @@ import re
 import validate as input_validate
 
 
-def users_get(input_dict):
+def tasks_get(input_dict):
     rules = {
-        "id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "page": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "pagesize": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
+        "host_id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
         "name": [lambda x: (isinstance(x, str) and re.match("\w+", x))],
     }
     errors = {
-        "id": "id is invalid",
-        "page": "page is invalid or not int",
-        "pagesize": "pagesize is invalid or not int",
+        "page": "page is not invalid int",
+        "pagesize": "pagesize is invalid int",
+        "host_id": "host_id is not existed or invalid",
         "name": "name is not existed or invalid",
     }
     default_error = "Params Invalid!"
@@ -25,17 +25,16 @@ def users_get(input_dict):
             raise error.RequestData(error.request_data_error, errors.get(key, default_error))
 
 
-def users_create(input_dict):
+def tasks_create(input_dict):
     rules = {
         "name": [Required, lambda x: (isinstance(x, str) and x is not '')],
-        "email": [Required, lambda x: (isinstance(x, str) and
-                                       re.match("\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}", x))],
-        "password": [Required, lambda x: (isinstance(x, str) and x is not '')]
+        "host_id": [Required, lambda x: (isinstance(x, int) and x is not ''and re.match("\d+", x))],
+        "case_ids": [Required, lambda x: (isinstance(x, str) and re.match("\w+", x))],
     }
     errors = {
         "name": "name is not existed or invalid",
-        "email": "email is not existed or invalid",
-        "password": "password is not existed invalid"
+        "host_id": "host_id is not existed or invalid",
+        "case_ids": "case_ids is not existed or invalid",
     }
     default_error = "Params Invalid!"
     res = validate(rules, input_dict)
@@ -45,14 +44,16 @@ def users_create(input_dict):
             raise error.RequestData(error.request_data_error, errors.get(key, default_error))
 
 
-def users_update(input_dict):
+def tasks_update(input_dict):
     rules = {
-        "id": [lambda x: (isinstance(x, int) or re.match("\w+", x))],
-        "name": [lambda x: (isinstance(x, str) and re.match("\w+", x))]
+        "id": [lambda x: (isinstance(x, int) or re.match("\d+", x))],
+        "host_id": [lambda x: (isinstance(x, str) and x is not '')],
+        "name": [lambda x: (isinstance(x, str) and x is not '')],
     }
     errors = {
         "id": "id is not existed or invalid",
-        "name": "name is not existed invalid"
+        "host_id": "host is not existed invalid",
+        "name": "name is not existed invalid",
     }
     default_error = "Params Invalid!"
     res = validate(rules, input_dict)
@@ -62,7 +63,7 @@ def users_update(input_dict):
             raise error.RequestData(error.request_data_error, errors.get(key, default_error))
 
 
-def users_delete(input_dict):
+def tasks_delete(input_dict):
     rules = {
         "id": [Required, lambda x: (isinstance(x, str) and x is not '')],
     }
